@@ -6,8 +6,9 @@ authors = ["kirill <shkolenko02-03-2004@mail.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 fastapi = {extras = ["all"], version = "^0.103.0"}
+imagebind = { path = "ml/imagebind" }
 alembic = "^1.11.3"
 loguru = "^0.7.0"
 ruff = "^0.3.7"
