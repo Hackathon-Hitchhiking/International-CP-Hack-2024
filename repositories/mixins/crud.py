@@ -13,7 +13,7 @@ class CRUDRepositoryMixin:
         self.model = model
         self._db = db
 
-    async def list(self, limit: int, offset: int, **filters) -> Sequence[Type[Any]]:
+    async def list(self, limit: int, offset: int, **filters) -> Sequence[Any]:
         logger.debug(f"{self.model.__name__} - Repository - get_list")
         query = select(self.model).offset(offset).limit(limit)
 
@@ -28,14 +28,14 @@ class CRUDRepositoryMixin:
         result = await self._db.execute(query)
         return result.scalars().all()
 
-    async def get(self, id: uuid.UUID) -> Type[Any]:
+    async def get(self, id: uuid.UUID) -> Any:
         logger.debug(f"{self.model.__name__} - Repository - get_by_id")
         instance = await self._db.get(self.model, id)
         if instance is None:
             raise ErrEntityNotFound(f"{self.model.__name__} not found")
         return instance
 
-    async def create(self, instance: Type[Any]) -> Type[Any]:
+    async def create(self, instance: Any) -> Any:
         logger.debug(f"{self.model.__name__} - Repository - create")
         self._db.add(instance)
         await self._db.commit()

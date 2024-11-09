@@ -10,6 +10,7 @@ from errors.handlers import init_exception_handlers
 
 from routing.v1.auth import router as auth_router
 from routing.v1.metric import router as metric_router
+from routing.v1.card import router as card_router
 
 app = FastAPI(openapi_url="/api/v1/openapi.json", docs_url="/api/v1/core/docs")
 
@@ -33,3 +34,4 @@ if not env.DEBUG:
 
 app.include_router(auth_router)
 app.include_router(metric_router)
+app.include_router(card_router)

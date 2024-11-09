@@ -1,4 +1,6 @@
 from minio import Minio
+from sqlalchemy.testing import fails
+
 from configs.Environment import get_environment_variables
 
 env = get_environment_variables()
@@ -9,7 +11,7 @@ minio_client = Minio(
     env.MINIO_HOST,
     access_key=env.MINIO_ACCESS,
     secret_key=env.MINIO_SECRET,
-    secure=True,
+    secure=False,
 )
 
 

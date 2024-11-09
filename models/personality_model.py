@@ -11,9 +11,9 @@ class PersonalityModel(EntityMeta):
     __tablename__ = "personality_model"
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
 
-    model: Mapped[str] # the name of the personality test, e.g OCEAN
-    parameter: Mapped[str] # the parameter from model
-    confidence: Mapped[float] # the confidence for this metric
+    model: Mapped[str]  # the name of the personality test, e.g OCEAN
+    parameter: Mapped[str]  # the parameter from model
+    confidence: Mapped[float]  # the confidence for this metric
 
     card: Mapped[uuid] = mapped_column(ForeignKey("card.id"))
 
