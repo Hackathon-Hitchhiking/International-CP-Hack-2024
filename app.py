@@ -9,6 +9,7 @@ from configs.Environment import get_environment_variables
 from errors.handlers import init_exception_handlers
 
 from routing.v1.auth import router as auth_router
+from routing.v1.metric import router as metric_router
 
 app = FastAPI(root_path="/api/v1")
 
@@ -31,3 +32,4 @@ if not env.DEBUG:
     logger.add(sys.stdout, level="INFO")
 
 app.include_router(auth_router)
+app.include_router(metric_router)
