@@ -18,6 +18,16 @@ services:
               count: all
               capabilities: [ gpu ]
 
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    command: >
+      bash -c "npm run build"
+    volumes:
+      - frontend_volume:/app/dist
+
   postgres:
     image: postgres:latest
     container_name: db
@@ -66,3 +76,4 @@ services:
 volumes:
   postgres_storage:
   static_storage:
+  frontend_volume:
