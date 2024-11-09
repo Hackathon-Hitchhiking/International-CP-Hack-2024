@@ -63,6 +63,7 @@ services:
     container_name: nginx
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
+      - frontend_volume:/usr/share/nginx/html
     env_file:
       - .docker/.env
     depends_on:
