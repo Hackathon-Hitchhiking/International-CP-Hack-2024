@@ -33,12 +33,7 @@ class CardService:
 
         transcribe = self._ml.transcript_video(card)
 
-        ocean = []
-
-        try:
-            ocean = self._ml.get_ocean(card, transcribe)
-        except Exception as e:
-            logger.error(f"ocean error: {e}")
+        ocean = self._ml.get_ocean(card, transcribe)
 
         logger.debug(f"ocean {ocean}")
 

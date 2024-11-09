@@ -91,13 +91,13 @@ class MlService:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as temp_audio:
             temp_audio.write(video)
 
-            audio_embedding = self._extract_audio_embedding(temp_audio.name)
+            audio, sr, audio_embeddings = self._extract_audio_embedding(temp_audio.name)
 
         text_embedding = self._extract_text_embedding(transcript)
 
         x = [
-            audio_embedding,
-            text_embedding,
+            audio_embeddings.cpu(),
+            text_embedding.cpu(),
         ]
 
         for label_name in self._label_names:
