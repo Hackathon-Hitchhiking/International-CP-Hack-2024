@@ -18,7 +18,7 @@ app = FastAPI(openapi_url="/api/v1/openapi.json", docs_url="/api/v1/core/docs")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["localhost:5173", "91.224.87.165.sslip.io"],
+    allow_origins=["http://localhost:5173", "https://91.224.87.165.sslip.io"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
