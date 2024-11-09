@@ -6,6 +6,8 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 COPY pyproject.toml poetry.lock /app/
 
+RUN apt install -y ffmpeg
+
 RUN pip install poetry
 
 RUN poetry config virtualenvs.create false \
