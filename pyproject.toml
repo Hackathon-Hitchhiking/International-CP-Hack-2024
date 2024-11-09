@@ -25,6 +25,7 @@ imagebind = {git = "https://github.com/Hackathon-Hitchhiking/ImageBind.git"}
 librosa = "^0.10.2.post1"
 torchaudio = "^2.5.1"
 transformers = "^4.46.2"
+tensorboard = "^2.18.0"
 
 [tool.ruff]
 exclude = ["models/__init__.py"]
