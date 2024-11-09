@@ -2,10 +2,11 @@ import uuid
 from typing import List
 
 from fastapi import Depends, APIRouter, UploadFile, File, Form, HTTPException
+from loguru import logger
 
 from models.user import User
 from schemas.card import CardSchema, ListCardOpts
-from services.auth import AuthService, authenticated
+from services.auth import authenticated
 from services.card import CardService
 
 router = APIRouter(prefix="/api/v1/card", tags=["card"])
@@ -44,7 +45,7 @@ async def create(
         )
 
     pdf = await pdf_file.read()
-    video = await pdf_file.read()
+    video = await video_file.read()
 
     card = await card_service.create(pdf, video, motivation_letter)
 

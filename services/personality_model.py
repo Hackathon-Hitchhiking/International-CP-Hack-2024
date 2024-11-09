@@ -12,7 +12,6 @@ class PersonalityModelService:
     def __init__(self, repo: PersonalityModelRepository = Depends()):
         self._repo = repo
 
-
     async def create(self, opts: PersonalityModel) -> PersonalityModelSchema:
         logger.debug("PersonalityModel - Service - create")
         personality_model = await self._repo.create(opts)

@@ -1,37 +1,42 @@
+import io
 import uuid
 
 from fastapi import Depends
 from loguru import logger
 
 from models.card import Card
-from models.personality_model import PersonalityModel
 from repositories.card import CardRepository
-from schemas.card import CardSchema, PersonalityModelSchema, ListCardOpts
+from schemas.card import CardSchema, ListCardOpts
+from services.MLSerivce import MlService
 from services.minio import MinioService
 from services.personality_model import PersonalityModelService
 
 
 class CardService:
     def __init__(
-        self, repo: CardRepository = Depends(), minio: MinioService = Depends(), personality_model_service: PersonalityModelService = Depends()
+        self, repo: CardRepository = Depends(), minio: MinioService = Depends(), personality_model_service: PersonalityModelService = Depends(),
+            ml_service: MlService = Depends(),
     ):
         self._repo = repo
         self._minio = minio
         self._personality_model_service = personality_model_service
+        self._ml = ml_service
 
     async def create(self, resume: bytes, card: bytes, motivation_letter: str) -> CardSchema:
         logger.debug("Card - Service - create")
         id = uuid.uuid4()
 
+        transcribe = self._ml.transcript_video(card)
+
         resume_path = self._minio.upload_resume(id, resume)
 
-        video_path = self._minio.upload_video_card(id, card)
+        video_path = self._minio.upload_video_card(id, io.BytesIO(card))
 
         card = await self._repo.create(
             Card(
                 id=id,
                 video_path=video_path,
-                transcription="",  # TODO add the transcription of the video
+                transcription=transcribe,
                 resume_path=resume_path,
                 motivation_letter=motivation_letter,
             )

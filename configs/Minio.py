@@ -1,5 +1,4 @@
 from minio import Minio
-from sqlalchemy.testing import fails
 
 from configs.Environment import get_environment_variables
 

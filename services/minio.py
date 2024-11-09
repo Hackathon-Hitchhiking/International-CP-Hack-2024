@@ -3,7 +3,6 @@ import uuid
 
 from fastapi import Depends
 from loguru import logger
-from mako.parsetree import DefTag
 
 from configs.Minio import base_bucket
 from repositories.minio import MinioRepository
@@ -22,10 +21,10 @@ class MinioService:
             MinioContentType.PDF,
         )
 
-    def upload_video_card(self, id: uuid.UUID, video: bytes) -> str:
+    def upload_video_card(self, id: uuid.UUID, video: io.BytesIO) -> str:
         logger.debug("Minio - Service - upload_video_card")
         return self._repo.create_object_from_byte(
-            f"card/{id}/{uuid.uuid4()}.mp4", io.BytesIO(video), MinioContentType.MP4
+            f"card/{id}/{uuid.uuid4()}.mp4", video, MinioContentType.MP4
         )
 
     def get_link(self, object_path: str, bucket_name: str = base_bucket) -> str:
