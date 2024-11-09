@@ -85,6 +85,7 @@ class MlService:
         >>> print(result)
         {'Openness': 0.75, 'Conscientiousness': 0.82, 'Extraversion': 0.65, 'Agreeableness': 0.78, 'Neuroticism': 0.54}
         """
+        logger.debug("ML - Service - get_ocean")
         answer = {}
 
         with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as temp_audio:
@@ -94,10 +95,10 @@ class MlService:
 
         text_embedding = self._extract_text_embedding(transcript)
 
-        x = {
-            "audio_embedding": audio_embedding,
-            "text_embedding": text_embedding,
-        }
+        x = [
+            audio_embedding,
+            text_embedding,
+        ]
 
         for label_name in self._label_names:
             model = self._catboost_models[label_name]
