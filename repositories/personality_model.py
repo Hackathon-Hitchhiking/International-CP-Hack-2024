@@ -27,3 +27,12 @@ class PersonalityModelRepository:
 
         result = await self._db.execute(query)
         return result.scalars().all()
+
+    async def get_by_vacancy_id(
+        self, vacancy_id: uuid.UUID
+    ) -> Sequence[PersonalityModel]:
+        logger.debug("PersonalityModel - Repository - get_by_vacancy_id")
+        query = select(PersonalityModel).where(PersonalityModel.vacancy == vacancy_id)
+
+        result = await self._db.execute(query)
+        return result.scalars().all()

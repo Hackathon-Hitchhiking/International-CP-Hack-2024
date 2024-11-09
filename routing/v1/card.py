@@ -2,7 +2,6 @@ import uuid
 from typing import List
 
 from fastapi import Depends, APIRouter, UploadFile, File, Form, HTTPException
-from loguru import logger
 
 from models.user import User
 from schemas.card import CardSchema, ListCardOpts
@@ -13,17 +12,27 @@ router = APIRouter(prefix="/api/v1/card", tags=["card"])
 
 
 @router.get("/", summary="list of the cards", response_model=List[CardSchema])
-async def get_list(limit: int = 100, offset: int = 0, card_service: CardService = Depends(), _: User = Depends(authenticated),):
+async def get_list(
+    limit: int = 100,
+    offset: int = 0,
+    card_service: CardService = Depends(),
+    _: User = Depends(authenticated),
+):
     cards = await card_service.list(ListCardOpts(offset=offset, limit=limit))
 
     return cards
 
 
 @router.get("/{id}", summary="getting card by id", response_model=CardSchema)
-async def get(id: uuid.UUID, card_service: CardService = Depends(), _: User = Depends(authenticated),):
+async def get(
+    id: uuid.UUID,
+    card_service: CardService = Depends(),
+    _: User = Depends(authenticated),
+):
     card = await card_service.get(id)
 
     return card
+
 
 @router.post("/", summary="creating card", response_model=CardSchema)
 async def create(

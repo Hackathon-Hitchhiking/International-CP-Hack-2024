@@ -1,12 +1,8 @@
-import io
 import tempfile
 
 from loguru import logger
 
 from ml.lifespan import whisper_model
-
-
-
 
 
 class MlService:

@@ -14,15 +14,20 @@ from services.personality_model import PersonalityModelService
 
 class CardService:
     def __init__(
-        self, repo: CardRepository = Depends(), minio: MinioService = Depends(), personality_model_service: PersonalityModelService = Depends(),
-            ml_service: MlService = Depends(),
+        self,
+        repo: CardRepository = Depends(),
+        minio: MinioService = Depends(),
+        personality_model_service: PersonalityModelService = Depends(),
+        ml_service: MlService = Depends(),
     ):
         self._repo = repo
         self._minio = minio
         self._personality_model_service = personality_model_service
         self._ml = ml_service
 
-    async def create(self, resume: bytes, card: bytes, motivation_letter: str) -> CardSchema:
+    async def create(
+        self, resume: bytes, card: bytes, motivation_letter: str
+    ) -> CardSchema:
         logger.debug("Card - Service - create")
         id = uuid.uuid4()
 
@@ -63,9 +68,9 @@ class CardService:
             transcription=req.transcription,
             resume_link=self._minio.get_link(req.resume_path),
             motivation_letter=req.motivation_letter,
-            personality_models=await self._personality_model_service.get_by_card_id(req.id),
+            personality_models=await self._personality_model_service.get_by_card_id(
+                req.id
+            ),
             created_at=req.created_at,
             updated_at=req.updated_at,
         )
-
-

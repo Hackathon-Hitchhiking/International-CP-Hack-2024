@@ -1,5 +1,4 @@
 import uuid
-from datetime import datetime
 from typing import List
 
 from pydantic import BaseModel
@@ -7,22 +6,23 @@ from pydantic import BaseModel
 from schemas.personality_models import PersonalityModelSchema
 
 
-class CardSchema(BaseModel):
+class VacancySchema(BaseModel):
     id: uuid.UUID
-    video_link: str
+    title: str
+    description: str
 
-    transcription: str
-
-    resume_link: str
-
-    motivation_letter: str
+    salary: int
 
     personality_models: List[PersonalityModelSchema]
 
-    created_at: datetime
-    updated_at: datetime
 
-
-class ListCardOpts(BaseModel):
+class ListVacancyOpts(BaseModel):
     offset: int = 0
     limit: int = 100
+
+
+class CreateVacancyOpts(BaseModel):
+    title: str
+    description: str
+
+    salary: int

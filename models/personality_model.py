@@ -15,7 +15,9 @@ class PersonalityModel(EntityMeta):
     parameter: Mapped[str]  # the parameter from model
     confidence: Mapped[float]  # the confidence for this metric
 
-    card: Mapped[uuid] = mapped_column(ForeignKey("card.id"))
+    card: Mapped[uuid] = mapped_column(ForeignKey("card.id"), nullable=True)
+
+    vacancy: Mapped[uuid] = mapped_column(ForeignKey("vacancy.id"), nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(default=datetime.now, nullable=False)
     updated_at: Mapped[datetime] = mapped_column(
