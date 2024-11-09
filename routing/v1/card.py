@@ -16,7 +16,6 @@ async def get_list(
     limit: int = 100,
     offset: int = 0,
     card_service: CardService = Depends(),
-    _: User = Depends(authenticated),
 ):
     cards = await card_service.list(ListCardOpts(offset=offset, limit=limit))
 
@@ -27,7 +26,6 @@ async def get_list(
 async def get(
     id: uuid.UUID,
     card_service: CardService = Depends(),
-    _: User = Depends(authenticated),
 ):
     card = await card_service.get(id)
 
@@ -40,7 +38,6 @@ async def create(
     video_file: UploadFile = File(..., description="Upload an MP4 video file"),
     motivation_letter: str = Form(..., description="Motivation letter as a string"),
     card_service: CardService = Depends(),
-    _: User = Depends(authenticated),
 ):
     if pdf_file.content_type != "application/pdf":
         raise HTTPException(
