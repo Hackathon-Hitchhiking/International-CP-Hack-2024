@@ -7,7 +7,7 @@ from loguru import logger
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 logger.debug("loading wisper")
 whisper_model = whisper.load_model("tiny")
@@ -24,5 +24,5 @@ tokenizer = GPT2Tokenizer.from_pretrained("sberbank-ai/rugpt3large_based_on_gpt2
 model = GPT2LMHeadModel.from_pretrained("sberbank-ai/rugpt3large_based_on_gpt2")
 model.to(device)
 
-with open('models/models.pkl', 'rb') as f:
+with open("models/models.pkl", "rb") as f:
     catboost_models = pickle.load(f)

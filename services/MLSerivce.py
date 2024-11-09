@@ -73,10 +73,7 @@ class MlService:
         for label_name in self._label_names:
             model = self._catboost_models[label_name]
 
-            sample_pool = Pool(
-                data=x,
-                embedding_features=self._embedding_features
-            )
+            sample_pool = Pool(data=x, embedding_features=self._embedding_features)
 
             y_pred = model.predict(sample_pool)[0]
 
@@ -120,17 +117,31 @@ class MlService:
         - FileNotFoundError
             Генерируется, если ffmpeg или необходимые библиотеки не установлены.
         """
-        with tempfile.NamedTemporaryFile(suffix='.wav', delete=True) as temp_audio_file:
+        with tempfile.NamedTemporaryFile(suffix=".wav", delete=True) as temp_audio_file:
             temp_audio_path = temp_audio_file.name
             subprocess.run(
-                ["ffmpeg", "-y", "-i", video_path, temp_audio_path, "-loglevel", "error"],
-                check=True
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-i",
+                    video_path,
+                    temp_audio_path,
+                    "-loglevel",
+                    "error",
+                ],
+                check=True,
             )
             audio, sr = librosa.load(temp_audio_path, sr=None)
 
-            inputs = {ModalityType.AUDIO: data.load_and_transform_audio_data([temp_audio_path], self.device)}
+            inputs = {
+                ModalityType.AUDIO: data.load_and_transform_audio_data(
+                    [temp_audio_path], self.device
+                )
+            }
             with torch.inference_mode():
-                audio_embeddings = self._imagebind_model(inputs)[ModalityType.AUDIO].mean(dim=0)
+                audio_embeddings = self._imagebind_model(inputs)[
+                    ModalityType.AUDIO
+                ].mean(dim=0)
 
             return audio, sr, audio_embeddings
 

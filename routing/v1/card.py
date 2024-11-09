@@ -3,9 +3,7 @@ from typing import List
 
 from fastapi import Depends, APIRouter, UploadFile, File, Form, HTTPException
 
-from models.user import User
 from schemas.card import CardSchema, ListCardOpts
-from services.auth import authenticated
 from services.card import CardService
 
 router = APIRouter(prefix="/api/v1/card", tags=["card"])

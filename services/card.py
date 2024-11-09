@@ -3,7 +3,6 @@ import uuid
 
 from fastapi import Depends
 from loguru import logger
-from torch.utils.tensorboard.summary import video
 
 from models.card import Card
 from repositories.card import CardRepository
@@ -38,7 +37,7 @@ class CardService:
 
         try:
             ocean = self._ml.get_ocean(card, transcribe)
-        except Exception as e:
+        except Exception:
             logger.error(f"ocean error: {logger}")
 
         logger.debug(f"ocean {ocean}")
