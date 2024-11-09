@@ -2,6 +2,7 @@ import subprocess
 import tempfile
 
 import librosa
+import pandas as pd
 import torch
 from catboost import Pool
 from imagebind.model import ModalityType
@@ -95,10 +96,10 @@ class MlService:
 
         text_embedding = self._extract_text_embedding(transcript)
 
-        x = [
-            audio_embeddings.cpu(),
-            text_embedding.cpu(),
-        ]
+        x = pd.DataFrame({
+            "audio_embedding": audio_embeddings.cpu(),
+            "text_embedding": text_embedding.cpu()
+        })
 
         for label_name in self._label_names:
             model = self._catboost_models[label_name]
