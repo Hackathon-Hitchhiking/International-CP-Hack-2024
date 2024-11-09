@@ -10,7 +10,7 @@ from errors.handlers import init_exception_handlers
 
 from routing.v1.auth import router as auth_router
 
-app = FastAPI(openapi_url="/api/v1/core/openapi.json", docs_url="/api/v1/core/docs", root_path="/api/v1")
+app = FastAPI(root_path="/api/v1")
 
 app.add_middleware(
     CORSMiddleware,
