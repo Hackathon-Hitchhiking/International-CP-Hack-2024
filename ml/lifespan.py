@@ -6,6 +6,7 @@ import imagebind
 from loguru import logger
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
+from ml.constants import RUGPT, CLASSIFIER_PATH
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -20,9 +21,9 @@ imagebind_model.eval()
 imagebind_model.to(device)
 
 logger.debug("loading bert")
-tokenizer = GPT2Tokenizer.from_pretrained("sberbank-ai/rugpt3large_based_on_gpt2")
-model = GPT2LMHeadModel.from_pretrained("sberbank-ai/rugpt3large_based_on_gpt2")
+tokenizer = GPT2Tokenizer.from_pretrained(RUGPT)
+model = GPT2LMHeadModel.from_pretrained(RUGPT)
 model.to(device)
 
-with open("ml/models/models.pkl", "rb") as f:
+with open(CLASSIFIER_PATH, "rb") as f:
     catboost_models = pickle.load(f)

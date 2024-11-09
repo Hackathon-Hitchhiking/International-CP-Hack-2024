@@ -37,8 +37,8 @@ class CardService:
 
         try:
             ocean = self._ml.get_ocean(card, transcribe)
-        except Exception:
-            logger.error(f"ocean error: {logger}")
+        except Exception as e:
+            logger.error(f"ocean error: {e}")
 
         logger.debug(f"ocean {ocean}")
 
