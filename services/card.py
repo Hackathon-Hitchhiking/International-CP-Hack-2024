@@ -7,7 +7,7 @@ from loguru import logger
 from models.card import Card
 from repositories.card import CardRepository
 from schemas.card import CardSchema, ListCardOpts
-from services.MLSerivce import MlService
+from services.ml import MlService
 from services.minio import MinioService
 from services.personality_model import PersonalityModelService
 
