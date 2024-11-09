@@ -97,8 +97,8 @@ class MlService:
         text_embedding = self._extract_text_embedding(transcript)
 
         x = pd.DataFrame({
-            "audio_embedding": audio_embeddings.cpu(),
-            "text_embedding": text_embedding.cpu()
+            "audio_embedding": audio_embeddings.squeeze().cpu(),
+            "text_embedding": text_embedding.squeeze().cpu()
         })
 
         for label_name in self._label_names:
@@ -176,7 +176,7 @@ class MlService:
 
             return audio, sr, audio_embeddings
 
-    def _extract_text_embedding(self, text):
+    def _extract_text_embedding(self, text) -> torch.Tensor:
         """
         Извлекает эмбеддинг для текста.
 
