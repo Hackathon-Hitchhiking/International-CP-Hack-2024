@@ -20,6 +20,11 @@ pandas = "^2.2.3"
 numpy = "<2.0"
 llvmlite = "^0.43.0"
 openai-whisper = "^20240930"
+catboost = "^1.2.7"
+imagebind = {git = "https://github.com/Hackathon-Hitchhiking/ImageBind.git"}
+librosa = "^0.10.2.post1"
+torchaudio = "^2.5.1"
+transformers = "^4.46.2"
 
 [tool.ruff]
 exclude = ["models/__init__.py"]

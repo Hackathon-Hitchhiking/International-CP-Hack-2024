@@ -12,3 +12,5 @@ env.bak/
 venv.bak/
 
 .docker/.env
+
+ml/models/models.pkl

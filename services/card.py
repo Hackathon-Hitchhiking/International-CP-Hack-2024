@@ -3,6 +3,7 @@ import uuid
 
 from fastapi import Depends
 from loguru import logger
+from torch.utils.tensorboard.summary import video
 
 from models.card import Card
 from repositories.card import CardRepository
@@ -32,6 +33,15 @@ class CardService:
         id = uuid.uuid4()
 
         transcribe = self._ml.transcript_video(card)
+
+        ocean = []
+
+        try:
+            ocean = self._ml.get_ocean(card, transcribe)
+        except Exception as e:
+            logger.error(f"ocean error: {logger}")
+
+        logger.debug(f"ocean {ocean}")
 
         resume_path = self._minio.upload_resume(id, resume)
 
