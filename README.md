@@ -35,6 +35,9 @@ cp configs/.env.example configs/.env
 nano configs/.env
 ```
 
+### 5. скачать веса
+Скачать веса с [яндекс диска](https://disk.yandex.ru/d/-0gWSKPzoxH7RQ) и положить их в ml/models
+
 ### 4. Запуск Docker Compose
 
 После настройки всех конфигурационных файлов запустите Docker Compose для сборки и запуска контейнеров:
