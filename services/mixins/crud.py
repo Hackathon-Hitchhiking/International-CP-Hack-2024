@@ -26,6 +26,5 @@ class CRUDServiceMixin:
 
     async def delete(self, id: uuid.UUID) -> None:
         logger.debug(f"{self._repo.model.__name__} - Service - delete")
-        entity = await self._repo.get(id)
         await self._repo.delete(id)
         return None

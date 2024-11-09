@@ -9,6 +9,14 @@ class EnvironmentSettings(BaseSettings):
     POSTGRES_DB: str
     POSTGRES_HOST: str
     POSTGRES_PORT: str
+
+    MINIO_ACCESS: str
+    MINIO_SECRET: str
+    MINIO_HOST: str
+    MINIO_BASE_BUCKET: str
+
+    SECRET_KEY: str
+
     DEBUG: bool
 
     class Config:

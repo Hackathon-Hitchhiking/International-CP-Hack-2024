@@ -13,9 +13,18 @@ class CRUDRepositoryMixin:
         self.model = model
         self._db = db
 
-    async def list(self, limit: int, offset: int) -> Sequence[Type[Any]]:
+    async def list(self, limit: int, offset: int, **filters) -> Sequence[Type[Any]]:
         logger.debug(f"{self.model.__name__} - Repository - get_list")
         query = select(self.model).offset(offset).limit(limit)
+
+        for k, v in filters.items():
+            try:
+                column = getattr(self.model, k)
+            except AttributeError:
+                continue
+
+            query = query.where(column == v)
+
         result = await self._db.execute(query)
         return result.scalars().all()
 

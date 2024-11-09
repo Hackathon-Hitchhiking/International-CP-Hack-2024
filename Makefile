@@ -3,11 +3,13 @@ up:
 
 .PHONY: migrate-rev
 migrate-rev:
-	poetry run alembic revision --autogenerate -m $(name)
+	@read -p "Enter the name of the revision: " name; \
+	poetry run alembic revision --autogenerate -m $$name
 
 .PHONY: migrate-up
 migrate-up:
-	poetry run alembic upgrade $(rev)
+	@read -p "Enter the revision to upgrade to: " rev; \
+	poetry run alembic upgrade $$rev
 
 .PHONY: local
 local:
