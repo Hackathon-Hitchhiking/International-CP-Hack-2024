@@ -1,22 +1,26 @@
 import uuid
 
 from fastapi import Depends
+from loguru import logger
 
 from models.card import Card
 from models.personality_model import PersonalityModel
 from repositories.card import CardRepository
 from schemas.card import CardSchema, PersonalityModelSchema, ListCardOpts
 from services.minio import MinioService
+from services.personality_model import PersonalityModelService
 
 
 class CardService:
     def __init__(
-        self, repo: CardRepository = Depends(), minio: MinioService = Depends()
+        self, repo: CardRepository = Depends(), minio: MinioService = Depends(), personality_model_service: PersonalityModelService = Depends()
     ):
         self._repo = repo
         self._minio = minio
+        self._personality_model_service = personality_model_service
 
     async def create(self, resume: bytes, card: bytes, motivation_letter: str) -> CardSchema:
+        logger.debug("Card - Service - create")
         id = uuid.uuid4()
 
         resume_path = self._minio.upload_resume(id, resume)
@@ -36,11 +40,13 @@ class CardService:
         return await self._card_repo_to_schema(card)
 
     async def get(self, id: uuid.UUID) -> CardSchema:
+        logger.debug("Card - Service - get")
         card = await self._repo.get(id)
 
         return await self._card_repo_to_schema(card)
 
     async def list(self, opts: ListCardOpts) -> list[CardSchema]:
+        logger.debug("Card - Service - list")
         cards = await self._repo.list(opts.limit, opts.offset)
 
         return [await self._card_repo_to_schema(card) for card in cards]
@@ -52,19 +58,9 @@ class CardService:
             transcription=req.transcription,
             resume_link=self._minio.get_link(req.resume_path),
             motivation_letter=req.motivation_letter,
-            personality_models=[],
-            # personality_models=[await self._personality_mode_repo_ro_schema(repo_pm) for repo_pm in await req.personality_models],
+            personality_models=await self._personality_model_service.get_by_card_id(req.id),
             created_at=req.created_at,
             updated_at=req.updated_at,
         )
 
-    async def _personality_mode_repo_ro_schema(
-        self, req: PersonalityModel
-    ) -> PersonalityModelSchema:
-        return PersonalityModelSchema(
-            model=req.model,
-            parameter=req.parameter,
-            confidence=req.confidence,
-            created_at=req.created_at,
-            updated_at=req.updated_at,
-        )
+

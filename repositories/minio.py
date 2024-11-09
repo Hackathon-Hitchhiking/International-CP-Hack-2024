@@ -20,7 +20,7 @@ class MinioRepository:
         content_type: MinioContentType,
         bucket_name: str = base_bucket,
     ) -> str:
-        logger.debug("Minio - Service - create_object_from_byte")
+        logger.debug("Minio - Repository - create_object_from_byte")
         self._client.put_object(
             bucket_name,
             object_path,
@@ -38,7 +38,7 @@ class MinioRepository:
         content_type: MinioContentType,
         bucket_name: str = base_bucket,
     ) -> str:
-        logger.debug("Minio - Service - create_object_from_file")
+        logger.debug("Minio - Repository - create_object_from_file")
         self._client.fput_object(
             bucket_name,
             object_path,
@@ -49,13 +49,13 @@ class MinioRepository:
         return object_path
 
     def create_bucket(self, name: str):
-        logger.debug("Minio - Service - create_bucket")
+        logger.debug("Minio - Repository - create_bucket")
         found = self._client.bucket_exists(name)
         if not found:
             self._client.make_bucket(name)
 
     def get_link(self, object_path: str, bucket_name: str) -> str:
-        logger.debug("Minio - Service - get_link")
+        logger.debug("Minio - Repository - get_link")
 
         url = self._client.get_presigned_url("GET", bucket_name, object_path)
 
