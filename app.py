@@ -3,6 +3,7 @@ import sys
 from fastapi import FastAPI
 from loguru import logger
 from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from configs.Environment import get_environment_variables
 from errors.handlers import init_exception_handlers
@@ -18,6 +19,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
 
 init_exception_handlers(app)
 
