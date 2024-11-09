@@ -11,7 +11,7 @@ from errors.handlers import init_exception_handlers
 from routing.v1.auth import router as auth_router
 from routing.v1.metric import router as metric_router
 
-app = FastAPI(root_path="/api/v1")
+app = FastAPI(openapi_url="/api/v1/openapi.json", docs_url="/api/v1/core/docs")
 
 app.add_middleware(
     CORSMiddleware,

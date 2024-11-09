@@ -12,7 +12,7 @@ from schemas.auth import (
 )
 from services.auth import AuthService, authenticated
 
-router = APIRouter(prefix="/metric", tags=["auth"])
+router = APIRouter(prefix="/metric", tags=["metric"])
 
 
 @router.get(
