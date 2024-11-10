@@ -21,9 +21,9 @@ imagebind_model.eval()
 imagebind_model.to(device)
 
 logger.debug("loading bert")
-tokenizer = GPT2Tokenizer.from_pretrained(RUGPT)
-model = GPT2LMHeadModel.from_pretrained(RUGPT)
-model.to(device)
+bert_tokenizer = GPT2Tokenizer.from_pretrained(RUGPT)
+bert_model = GPT2LMHeadModel.from_pretrained(RUGPT)
+bert_model.to(device)
 
 with open(CLASSIFIER_PATH, "rb") as f:
     catboost_models = pickle.load(f)

@@ -29,6 +29,14 @@ async def get(
 
     return card
 
+@router.get("advice/{id}", summary="getting advice by card id")
+async def get(
+        id: uuid.UUID,
+        card_service: CardService = Depends(),
+):
+    advice = await card_service.create_advice(id)
+
+    return advice
 
 @router.post("/", summary="creating card", response_model=CardSchema)
 async def create(

@@ -4,6 +4,7 @@ import uuid
 from fastapi import Depends
 from loguru import logger
 
+from errors.errors import ErrBadRequest
 from models.card import Card
 from repositories.card import CardRepository
 from schemas.card import CardSchema, ListCardOpts
@@ -81,3 +82,18 @@ class CardService:
             created_at=req.created_at,
             updated_at=req.updated_at,
         )
+
+    async def create_advice(self, id: uuid.UUID) -> str:
+        personality_models = await self._personality_model_service.get_by_card_id(id)
+
+        if len(personality_models) < 6:
+            raise ErrBadRequest("there is less than 6 parameters")
+
+        dct = {}
+
+        for personality_model in personality_models:
+            dct[personality_model.parameter] = personality_model.confidence
+
+        advice = self._ml.generate_advice(dct)
+
+        return advice

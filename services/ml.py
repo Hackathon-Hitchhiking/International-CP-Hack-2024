@@ -9,7 +9,7 @@ from imagebind.model import ModalityType
 from imagebind.utils import data
 from loguru import logger
 
-from ml.lifespan import whisper_model, device, imagebind_model, catboost_models
+from ml.lifespan import whisper_model, device, imagebind_model, catboost_models, bert_tokenizer, bert_model
 from ml.constants import LABEL_NAMES, EMBEDDING_FEATURES
 
 
@@ -21,6 +21,9 @@ class MlService:
         self._catboost_models = catboost_models
         self._label_names = LABEL_NAMES
         self._embedding_features = EMBEDDING_FEATURES
+
+        self._bert_tokenizer = bert_tokenizer
+        self._bert_model = bert_model
 
         self.device = device
 
@@ -210,3 +213,90 @@ class MlService:
         with torch.inference_mode():
             text_embedding = self._imagebind_model(inputs)[ModalityType.TEXT]
         return text_embedding
+
+    def _generate_prompt(self, traits: dict) -> str:
+        """
+        Создает текстовый промпт на основе личностных показателей.
+
+        Параметры
+        ----------
+        traits : dict
+            Словарь с ключами, представляющими личностные характеристики (например,
+            'extraversion', 'neuroticism', 'agreeableness', 'conscientiousness',
+            'openness'), и значениями, описывающими степень выраженности каждой
+            характеристики.
+
+        Возвращает
+        -------
+        str
+            Сформированный текстовый промпт, содержащий описание личностных черт и
+            запрос на перечисление подходящих профессий для кандидата.
+
+        Примечания
+        ---------
+        - Функция создает текстовый шаблон, который впоследствии используется для
+          генерации рекомендаций на основе входных данных.
+        - Включенные в шаблон характеристики помогают модели лучше понимать запрос
+          и формировать релевантные результаты.
+        """
+        prompt = (
+            f"У кандидата следующие показатели личности:\n"
+            f"- Экстраверсия: {traits['extraversion']}\n"
+            f"- Нейротизм: {traits['neuroticism']}\n"
+            f"- Доброжелательность: {traits['agreeableness']}\n"
+            f"- Сознательность: {traits['conscientiousness']}\n"
+            f"- Открытость опыту: {traits['openness']}\n\n"
+            f"На основе этих показателей перечислите наиболее подходящие профессии для кандидата. "
+            f"Ответьте кратко, перечислив не более трех профессий."
+        )
+        return prompt
+
+    def generate_advice(self, traits, max_length=150) -> str:
+        """
+        Генерирует краткие рекомендации по работе на основе личностных показателей.
+
+        Параметры
+        ----------
+        traits : list
+            Список строк, представляющих личностные характеристики или черты,
+            которые будут использоваться для создания текста рекомендации.
+        max_length : int, optional
+            Максимальная длина генерируемого текста в символах (по умолчанию 150).
+
+        Возвращает
+        -------
+        str
+            Сгенерированный текст с рекомендацией, содержащий описание действий
+            или советов, основанных на личностных характеристиках. Текст возвращается
+            в виде строки без специальных токенов, только основная часть.
+
+        Примечания
+        ---------
+        - Для генерации текста используется предварительно обученная модель языковой
+          генерации.
+        - Функция обрабатывает промпт с помощью токенизатора и модели, которая
+          генерирует текст по заданным параметрам.
+        - Выходной текст очищается от исходного промпта и возвращается только
+          сгенерированная часть.
+        """
+        prompt = self._generate_prompt(traits)
+        input_ids = self._bert_tokenizer.encode(prompt, return_tensors='pt').to(device)
+
+        output = self._bert_model.generate(
+            input_ids,
+            max_length=max_length,
+            num_return_sequences=1,
+            no_repeat_ngram_size=3,
+            do_sample=True,
+            top_k=10,
+            top_p=0.8,
+            temperature=0.5,
+            eos_token_id=self._bert_tokenizer.eos_token_id,
+            pad_token_id=self._bert_tokenizer.pad_token_id
+        )
+
+        generated_text = self._bert_tokenizer.decode(output[0], skip_special_tokens=True)
+        # Удаляем исходный промпт из сгенерированного текста
+        advice = generated_text[len(prompt):].strip()
+        # Оставляем только первую часть до точки или переноса строки
+        return advice
