@@ -36,6 +36,8 @@ class CardService:
 
         ocean = self._ml.get_ocean(card, transcribe)
 
+        logger.debug(f"ocean = {ocean}, type = {type(ocean)}")
+
         resume_path = self._minio.upload_resume(id, resume)
 
         video_path = self._minio.upload_video_card(id, io.BytesIO(card))
