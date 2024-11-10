@@ -49,7 +49,7 @@ nano configs/.env
 ```
 
 ### 5. скачать веса
-Скачать веса с [яндекс диска](https://disk.yandex.ru/d/-0gWSKPzoxH7RQ) и положить их в ml/models
+Скачать веса с [яндекс диска](https://disk.yandex.ru/d/0lHbXoMT_nrV4Q) и положить их в ml/models
 
 ### 4. Запуск Docker Compose
 
