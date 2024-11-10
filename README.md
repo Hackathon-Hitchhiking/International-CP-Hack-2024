@@ -7,6 +7,14 @@
 - Тренировка модели [train.ipynb](ml/jupyters/train.ipynb)
 - Генерация датасета [dataset.ipynb](ml/jupyters/dataset.ipynb)
 - Конвенторы в различные системы личностей [convertors.py](utils/convertors.py)
+  Используемые стать:
+    - McCrae, R. R., & Costa, P. T. Jr. (1989).
+      Reinterpreting the Myers-Briggs Type Indicator From the Perspective of the Five-Factor Model of Personality.
+      Journal of Personality, 57(1), 17–40.
+
+    - De Fruyt, F., & Mervielde, I. (1997).
+      The Five-Factor Model of personality and Holland's RIASEC interest types.
+      Personality and Individual Differences, 23(1), 87-103.
 
 ## Как запустить
 ### 1. Клонирование репозитория
