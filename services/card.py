@@ -52,7 +52,7 @@ class CardService:
             )
         )
 
-        for letter, score in ocean:
+        for letter, score in ocean.items():
             await self._personality_model_service.create(CreatePersonalityModel(model="OCEAN", parameter=letter, confidence=score))
 
         return await self._card_repo_to_schema(card)
