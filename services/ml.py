@@ -97,8 +97,8 @@ class MlService:
         text_embedding = self._extract_text_embedding(transcript)
 
         x = pd.DataFrame({
-            "audio_embedding": audio_embeddings.squeeze().cpu(),
-            "text_embedding": text_embedding.squeeze().cpu()
+            "audio_embedding": audio_embeddings.squeeze().cpu().numpy(),
+            "text_embedding": text_embedding.squeeze().cpu().numpy()
         })
 
         for label_name in self._label_names:
