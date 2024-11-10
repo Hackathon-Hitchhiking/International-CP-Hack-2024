@@ -6,6 +6,7 @@
 - Советы кандидатам: [comment.ipynb](ml/jupyters/comment.ipynb)
 - Тренировка модели [train.ipynb](ml/jupyters/train.ipynb)
 - Генерация датасета [dataset.ipynb](ml/jupyters/dataset.ipynb)
+- Конвенторы в различные системы личностей [convertors.py](utils/convertors.py)
 
 ## Как запустить
 ### 1. Клонирование репозитория
