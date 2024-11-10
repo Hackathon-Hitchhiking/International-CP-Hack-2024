@@ -97,8 +97,8 @@ class MlService:
         text_embedding = self._extract_text_embedding(transcript)
 
         x = pd.DataFrame({
-            "audio_embedding": audio_embeddings.squeeze().cpu().tolist(),
-            "text_embedding": text_embedding.squeeze().cpu().tolist()
+            "audio_embedding": [audio_embeddings.squeeze().cpu().tolist()],
+            "text_embedding": [text_embedding.squeeze().cpu().tolist()]
         })
 
         logger.debug(f"x = {x}")
