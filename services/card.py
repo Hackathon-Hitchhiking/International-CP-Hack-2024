@@ -11,6 +11,7 @@ from schemas.personality_models import CreatePersonalityModel
 from services.ml import MlService
 from services.minio import MinioService
 from services.personality_model import PersonalityModelService
+from utils.convertors import PersonalityConverter
 
 
 class CardService:
@@ -36,8 +37,6 @@ class CardService:
 
         ocean = self._ml.get_ocean(card, transcribe)
 
-        logger.debug(f"ocean = {ocean}, type = {type(ocean)}")
-
         resume_path = self._minio.upload_resume(id, resume)
 
         video_path = self._minio.upload_video_card(id, io.BytesIO(card))
@@ -53,7 +52,7 @@ class CardService:
         )
 
         for letter, score in ocean.items():
-            await self._personality_model_service.create(CreatePersonalityModel(model="OCEAN", parameter=letter, confidence=score))
+            await self._personality_model_service.create(CreatePersonalityModel(model="OCEAN", parameter=letter, confidence=score, card=id))
 
         return await self._card_repo_to_schema(card)
 
