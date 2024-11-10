@@ -101,8 +101,6 @@ class MlService:
             "text_embedding": [text_embedding.squeeze().cpu().tolist()]
         })
 
-        logger.debug(f"x = {x}")
-
         for label_name in self._label_names:
             model = self._catboost_models[label_name]
 
