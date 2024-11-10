@@ -6,7 +6,7 @@
 - Советы кандидатам: [comment.ipynb](ml/jupyters/comment.ipynb)
 - Тренировка модели [train.ipynb](ml/jupyters/train.ipynb)
 - Генерация датасета [dataset.ipynb](ml/jupyters/dataset.ipynb)
-- Конвенторы в различные системы личностей [convertors.py](utils/convertors.py)
+- Конвенторы в различные модели типов личности [convertors.py](utils/convertors.py)
   Используемые стать:
     - McCrae, R. R., & Costa, P. T. Jr. (1989).
       Reinterpreting the Myers-Briggs Type Indicator From the Perspective of the Five-Factor Model of Personality.
@@ -15,6 +15,10 @@
     - De Fruyt, F., & Mervielde, I. (1997).
       The Five-Factor Model of personality and Holland's RIASEC interest types.
       Personality and Individual Differences, 23(1), 87-103.
+
+    - Liao, H.-Y., Armstrong, P. I., & Rounds, J. (2008).
+      Development and initial validation of public domain basic interest scales and an elaborated taxonomy of interests.
+      Journal of Vocational Behavior, 73(1), 159-183.
 
 ## Как запустить
 ### 1. Клонирование репозитория
