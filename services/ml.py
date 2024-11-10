@@ -97,9 +97,11 @@ class MlService:
         text_embedding = self._extract_text_embedding(transcript)
 
         x = pd.DataFrame({
-            "audio_embedding": audio_embeddings.squeeze().cpu().numpy(),
-            "text_embedding": text_embedding.squeeze().cpu().numpy()
+            "audio_embedding": audio_embeddings.squeeze().cpu().tolist(),
+            "text_embedding": text_embedding.squeeze().cpu().tolist()
         })
+
+        logger.debug(f"x = {x}")
 
         for label_name in self._label_names:
             model = self._catboost_models[label_name]
